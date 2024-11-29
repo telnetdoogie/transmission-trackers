@@ -1,7 +1,5 @@
 FROM python:3-alpine as builder
 
-RUN apk add --no-cache gcc musl-dev libffi-dev
-
 WORKDIR /app
 
 COPY requirements.txt .
