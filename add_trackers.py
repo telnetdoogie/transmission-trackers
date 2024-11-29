@@ -8,10 +8,10 @@ from transmission_rpc import Torrent
 
 
 class TrackerUpdater:
-    def __init__(self, url, expiry: float):
+    def __init__(self, url, expiration_time: float):
         print("TrackerUpdater Initializing...")
         self.url = url
-        self.expiry = expiry
+        self.list_expiration_time = expiration_time
         self._running = True
         self.trackers = None
         self.trackers_timestamp = None
@@ -29,7 +29,7 @@ class TrackerUpdater:
         while self._running:
             current_time = time.time()
             if (self.trackers is None or self.trackers_timestamp is None) or (
-                    (current_time - self.trackers_timestamp) > self.expiry):
+                    (current_time - self.trackers_timestamp) > self.list_expiration_time):
                 self.__load_trackers()
             time.sleep(60 * 5)
 
@@ -66,7 +66,7 @@ class TorrentUpdater:
         self.port: int = 9091
         self.trackers_list = "https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best.txt"
         self.period: float = 120
-        self.tracker_expiry: float = 28800  # 8 hours
+        self.tracker_expiration_time: float = 28800  # 8 hours
 
         if os.getenv("TRANSMISSION_HOST"):
             self.host = os.getenv("TRANSMISSION_HOST")
@@ -100,15 +100,15 @@ class TorrentUpdater:
                 exit(1)
             print(f"Setting TORRENT_CHECK_PERIOD to {round(self.period)}s")
 
-        if os.getenv("TRACKER_CHECK_PERIOD"):
+        if os.getenv("TRACKER_EXPIRATION"):
             try:
-                self.tracker_expiry = float(os.getenv("TRACKER_EXPIRY_PERIOD"))
+                self.tracker_expiration_time = float(os.getenv("TRACKER_EXPIRATION"))
             except ValueError:
-                print("TRACKER_EXPIRY_PERIOD passed was not a number")
+                print("TRACKER_EXPIRATION passed was not a number")
                 exit(1)
-            print(f"Setting TRACKER_EXPIRY_PERIOD to {round(self.tracker_expiry)}s")
+            print(f"Setting TRACKER_EXPIRATION to {round(self.tracker_expiration_time)}s")
 
-        self.updater = TrackerUpdater(url=self.trackers_list, expiry=self.tracker_expiry)
+        self.updater = TrackerUpdater(url=self.trackers_list, expiration_time=self.tracker_expiration_time)
         self.updater.start()
 
     def update_trackers(self, torrent: Torrent):
@@ -119,7 +119,7 @@ class TorrentUpdater:
         all_trackers = list(set(new_trackers) | set(current_trackers))
         if sorted(current_trackers) != sorted(all_trackers):
             print(f"Updating trackers for {torrent.name}")
-            print(f" - current trackers ({len(current_trackers)}")
+            print(f" - current trackers ({len(current_trackers)})")
             print(f" - new trackers ({len(new_trackers)}):")
             print(f" - combined list ({len(all_trackers)}):")
             tc.change_torrent(ids=torrent.id, tracker_list=[all_trackers])
