@@ -12,3 +12,5 @@ You can set these as needed to override the defaults.
 | `TRANSMISSION_PASS`    | Password for transmission. Ignore if no auth needed.                                  | `password`                                                                        |
 | `TORRENT_CHECK_PERIOD` | How frequent (in seconds) we'll check for active torrents                             | `120` (2 minutes)                                                                 |
 | `TRACKER_EXPIRATION`   | How long downloaded tracker list will kept (in seconds) before downloading the latest | `28800` (8 hours)                                                                 |
+
+This is a v1 project. Report issues in [Issues](https://github.com/telnetdoogie/transmission-trackers/issues)
