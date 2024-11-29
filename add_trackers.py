@@ -112,18 +112,22 @@ class TorrentUpdater:
         self.updater.start()
 
     def update_trackers(self, torrent: Torrent):
-        tc = transmission_rpc.Client(username=self.user, password=self.password, host=self.host, port=self.port)
-        current_trackers = tc.get_torrent(torrent_id=torrent.id).tracker_list
-        new_trackers = self.updater.get_trackers()
-        # Make a union of current and new trackers
-        all_trackers = list(set(new_trackers) | set(current_trackers))
-        if sorted(current_trackers) != sorted(all_trackers):
-            print(f"Updating trackers for {torrent.name}")
-            print(f" - current trackers ({len(current_trackers)})")
-            print(f" - new trackers ({len(new_trackers)}):")
-            print(f" - combined list ({len(all_trackers)}):")
-            tc.change_torrent(ids=torrent.id, tracker_list=[all_trackers])
-            print(f" - Trackers updated for {torrent.name}")
+        try:
+            tc = transmission_rpc.Client(username=self.user, password=self.password, host=self.host, port=self.port)
+            current_trackers = tc.get_torrent(torrent_id=torrent.id).tracker_list
+            new_trackers = self.updater.get_trackers()
+            # Make a union of current and new trackers
+            all_trackers = list(set(new_trackers) | set(current_trackers))
+            if sorted(current_trackers) != sorted(all_trackers):
+                print(f"Updating trackers for {torrent.name}")
+                print(f" - current trackers ({len(current_trackers)})")
+                print(f" - new trackers ({len(new_trackers)}):")
+                print(f" - combined list ({len(all_trackers)}):")
+                tc.change_torrent(ids=torrent.id, tracker_list=[all_trackers])
+                print(f" - Trackers updated for {torrent.name}")
+        except Exception as e:
+            print(f"An error occurred updating trackers: {e}")
+        return
 
     def get_torrents(self):
         try:
