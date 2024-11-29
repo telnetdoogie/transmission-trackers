@@ -116,11 +116,14 @@ class TorrentUpdater:
         current_trackers = tc.get_torrent(torrent_id=torrent.id).tracker_list
         new_trackers = self.updater.get_trackers()
         # Make a union of current and new trackers
-        all_trackers = list(set(current_trackers) | set(new_trackers))
-
+        all_trackers = list(set(new_trackers) | set(current_trackers))
         if sorted(current_trackers) != sorted(all_trackers):
             print(f"Updating trackers for {torrent.name}")
-            tc.change_torrent(ids=torrent.hashString, tracker_list=all_trackers)
+            print(f" - current trackers ({len(current_trackers)}")
+            print(f" - new trackers ({len(new_trackers)}):")
+            print(f" - combined list ({len(all_trackers)}):")
+            tc.change_torrent(ids=torrent.id, tracker_list=[all_trackers])
+            print(f" - Trackers updated for {torrent.name}")
 
     def get_torrents(self):
         try:
@@ -144,9 +147,9 @@ class TorrentUpdater:
         print(f"Watching for new torrents every {round(self.period)} seconds...")
         while True:
             torrents: list[Torrent] = self.get_torrents()
+            print(f"Checking active torrents ({len(torrents)})")
             for torrent in torrents:
                 self.update_trackers(torrent)
-            print(f"Sleeping for {round(self.period)} seconds")
             time.sleep(self.period)
 
 
