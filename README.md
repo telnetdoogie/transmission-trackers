@@ -6,7 +6,7 @@ The tracker list will only be downloaded every 8 hours by default (the example l
 
 Torrents are checked every 2 minutes (this can also be customized by environment variables)
 
-If a torrent already has the additional trackers present, no changes will be made.
+If a torrent already has the additional trackers present, no changes will be made. This app will also not make any tracker modifications to torrents flagged as private.
 
 Please note this is a v1 project. While it's been tested on my own setup, there may be issues and configurations that have not been fully tested. 
 Report issues in [Issues](https://github.com/telnetdoogie/transmission-trackers/issues)
