@@ -6,6 +6,7 @@ import transmission_rpc
 import requests
 from transmission_rpc import Torrent
 
+# telnetdoogie -  https://github.com/telnetdoogie/transmission-trackers
 
 class TrackerUpdater:
     def __init__(self, url, expiration_time: float):
