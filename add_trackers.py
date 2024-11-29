@@ -120,12 +120,11 @@ class TorrentUpdater:
             # Make a union of current and new trackers
             all_trackers = list(set(new_trackers) | set(current_trackers))
             if sorted(current_trackers) != sorted(all_trackers):
-                print(f"Updating trackers for {torrent.name}")
-                print(f" - current trackers ({len(current_trackers)})")
-                print(f" - new trackers ({len(new_trackers)}):")
-                print(f" - combined list ({len(all_trackers)}):")
+                print(f'Updating trackers for "{torrent.name}"')
+                print(f" - {len(current_trackers)} current trackers")
+                print(f" - {len(all_trackers)} trackers after update")
                 tc.change_torrent(ids=torrent.id, tracker_list=[all_trackers])
-                print(f" - Trackers updated for {torrent.name}")
+                print(f' - Trackers updated for "{torrent.name}"')
         except Exception as e:
             print(f"An error occurred updating trackers: {e}")
         return
@@ -163,13 +162,15 @@ class TorrentUpdater:
             if new_torrent_names != torrent_names:
                 print(f"Active torrents have changed ({len(torrents)} active)")
                 for name in (n for n in new_torrent_names if n not in torrent_names):
-                    print(f" - New torrent: {name}")
+                    print(f' - New torrent: "{name}"')
                 for name in (n for n in torrent_names if n not in new_torrent_names):
-                    print(f" - Torrent removed: {name}")
+                    print(f' - Torrent removed: "{name}"')
                 torrent_names = new_torrent_names
 
             for torrent in torrents:
-                self.update_trackers(torrent)
+                # don't change anything in private torrents
+                if not torrent.is_private:
+                    self.update_trackers(torrent)
             time.sleep(self.period)
 
 
