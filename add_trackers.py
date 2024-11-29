@@ -140,7 +140,7 @@ class TorrentUpdater:
             return []
 
     def main(self):
-
+        torrent_names = []
         print("Waiting for the tracker updater to successfully load trackers...")
         self.updater.initial_load_event.wait(timeout=300)  # Wait until trackers are loaded
 
@@ -152,7 +152,22 @@ class TorrentUpdater:
         print(f"Watching for new torrents every {round(self.period)} seconds...")
         while True:
             torrents: list[Torrent] = self.get_torrents()
-            print(f"Checking active torrents ({len(torrents)})")
+
+            # put active torrent names in a list
+            new_torrent_names = []
+            for torrent in torrents:
+                    new_torrent_names.append(torrent.name)
+            new_torrent_names.sort()
+
+            # summarize the additions / deletions for output
+            if new_torrent_names != torrent_names:
+                print(f"Active torrents have changed ({len(torrents)} active)")
+                for name in (n for n in new_torrent_names if n not in torrent_names):
+                    print(f" - New torrent: {name}")
+                for name in (n for n in torrent_names if n not in new_torrent_names):
+                    print(f" - Torrent removed: {name}")
+                torrent_names = new_torrent_names
+
             for torrent in torrents:
                 self.update_trackers(torrent)
             time.sleep(self.period)
