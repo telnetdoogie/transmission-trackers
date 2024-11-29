@@ -12,6 +12,6 @@ FROM python:3-alpine
 COPY --from=builder /install /usr/local
 
 WORKDIR /app
-
+ENV PYTHONUNBUFFERED=1
 COPY add_trackers.py .
-CMD ["python", "add_trackers.py"]
+CMD ["python", "-u", "./add_trackers.py"]
