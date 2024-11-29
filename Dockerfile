@@ -1,18 +1,17 @@
-FROM python:3-alpine as base
+FROM python:3-alpine as builder
 
-FROM base as builder
-
-RUN mkdir /install
-WORKDIR /install
-
-COPY requirements.txt /requirements.txt
-
-RUN pip install --target=/install -r /requirements.txt
-
-FROM base
-
-COPY --from=builder /install /usr/local
-COPY add_trackers.py /app
+RUN apk add --no-cache gcc musl-dev libffi-dev
 
 WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+FROM python:3-alpine
+
+COPY --from=builder /install /usr/local
+
+WORKDIR /app
+
+COPY add_trackers.py .
 CMD ["python", "add_trackers.py"]
