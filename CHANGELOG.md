@@ -1,3 +1,12 @@
+# [1.1.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.0.2...v1.1.0) (2024-12-02)
+
+
+### Features
+
+* switch to using hashString to identify torrents as per the recommended specs ([f440858](https://github.com/telnetdoogie/transmission-trackers/commit/f4408581460c419184b875821e16d67dffb911a1))
+
+
+
 ## [1.0.2](https://github.com/telnetdoogie/transmission-trackers/compare/v1.0.1...v1.0.2) (2024-11-29)
 
 
