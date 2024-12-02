@@ -1,10 +1,10 @@
 import os
 import threading
 import time
-import transmission_rpc
 
 import requests
-from transmission_rpc import Torrent
+from transmission_rpc import Torrent, Client
+
 
 # telnetdoogie -  https://github.com/telnetdoogie/transmission-trackers
 
@@ -114,8 +114,8 @@ class TorrentUpdater:
 
     def update_trackers(self, torrent: Torrent):
         try:
-            tc = transmission_rpc.Client(username=self.user, password=self.password, host=self.host, port=self.port)
-            current_trackers = tc.get_torrent(torrent_id=torrent.id).tracker_list
+            tc = Client(username=self.user, password=self.password, host=self.host, port=self.port)
+            current_trackers = tc.get_torrent(torrent_id=torrent.hashString).tracker_list
             new_trackers = self.updater.get_trackers()
             # Make a union of current and new trackers
             all_trackers = list(set(new_trackers) | set(current_trackers))
@@ -123,7 +123,7 @@ class TorrentUpdater:
                 print(f'Updating trackers for "{torrent.name}"')
                 print(f" - {len(current_trackers)} current trackers")
                 print(f" - {len(all_trackers)} trackers after update")
-                tc.change_torrent(ids=torrent.id, tracker_list=[all_trackers])
+                tc.change_torrent(ids=torrent.hashString, tracker_list=[all_trackers])
                 print(f' - Trackers updated for "{torrent.name}"')
         except Exception as e:
             print(f"An error occurred updating trackers: {e}")
@@ -131,7 +131,7 @@ class TorrentUpdater:
 
     def get_torrents(self):
         try:
-            tc = transmission_rpc.Client(username=self.user, password=self.password, host=self.host, port=self.port)
+            tc = Client(username=self.user, password=self.password, host=self.host, port=self.port)
             torrents = tc.get_torrents()
             return torrents
         except Exception as e:
