@@ -1,3 +1,12 @@
+# [1.2.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.1.0...v1.2.0) (2024-12-06)
+
+
+### Features
+
+* Only update trackers if they've changed ([04aed5b](https://github.com/telnetdoogie/transmission-trackers/commit/04aed5bcde129e7aa046ae5e6027308c1602130d))
+
+
+
 # [1.1.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.0.2...v1.1.0) (2024-12-02)
 
 
