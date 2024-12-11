@@ -17,7 +17,7 @@ Report issues in [Issues](https://github.com/telnetdoogie/transmission-trackers/
 docker run --rm --name transmission-trackers \
     -e TRANSMISSION_HOST=transmission \
     -e TRACKERS_LIST=https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best_ip.txt \
-    telnetdoogie/docker-par2cmdline
+    telnetdoogie/transmission-trackers:latest
 ```
 
 ## Running from `docker-compose`
