@@ -50,3 +50,4 @@ You can set these as needed to override the defaults. If the defaults are accept
 | `TORRENT_CHECK_PERIOD` | How frequent (in seconds) we'll check for active torrents                             | `120` (2 minutes)                                                                 |
 | `TRACKER_EXPIRATION`   | How long downloaded tracker list will kept (in seconds) before downloading the latest | `28800` (8 hours)                                                                 |
 
+
