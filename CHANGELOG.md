@@ -1,3 +1,12 @@
+## [1.2.1](https://github.com/telnetdoogie/transmission-trackers/compare/v1.2.0...v1.2.1) (2024-12-13)
+
+
+### Bug Fixes
+
+* run as non-root user ([d73bb73](https://github.com/telnetdoogie/transmission-trackers/commit/d73bb73541e0f92e62ad56b7cbe37fae19d228e1))
+
+
+
 # [1.2.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.1.0...v1.2.0) (2024-12-06)
 
 
