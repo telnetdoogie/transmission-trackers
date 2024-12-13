@@ -12,4 +12,5 @@ COPY --from=builder /install /usr/local
 WORKDIR /app
 ENV PYTHONUNBUFFERED=1
 COPY add_trackers.py .
+USER nobody
 CMD ["python", "-u", "./add_trackers.py"]
