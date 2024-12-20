@@ -1,5 +1,7 @@
 # transmission-trackers
 
+[![CodeFactor](https://www.codefactor.io/repository/github/telnetdoogie/transmission-trackers/badge/main)](https://www.codefactor.io/repository/github/telnetdoogie/transmission-trackers/overview/main)
+
 This minimal-config docker image will run alongside your transmission installation, check for active torrents, and update their trackers (add additional trackers) using a user-defined tracker-list such as the ones provided by [@ngosang](https://github.com/ngosang) at https://github.com/ngosang/trackerslist.
 
 The tracker list will only be downloaded every 8 hours by default (the example list only changes once per day on average) but this frequency can be modified by environment variables.
