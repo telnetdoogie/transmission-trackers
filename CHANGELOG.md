@@ -1,3 +1,12 @@
+## [1.3.1](https://github.com/telnetdoogie/transmission-trackers/compare/v1.3.0...v1.3.1) (2025-01-29)
+
+
+### Bug Fixes
+
+* ignore is_stalled as unstarted, since when first adding the torrent it will not show as stalled. [#28](https://github.com/telnetdoogie/transmission-trackers/issues/28) ([8108cf8](https://github.com/telnetdoogie/transmission-trackers/commit/8108cf8f3f6af20a72c9ca5b952b6379b5de5347))
+
+
+
 # [1.3.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.2.2...v1.3.0) (2025-01-29)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Only update trackers if they've changed ([04aed5b](https://github.com/telnetdoogie/transmission-trackers/commit/04aed5bcde129e7aa046ae5e6027308c1602130d))
-
-
-
-# [1.1.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.0.2...v1.1.0) (2024-12-02)
-
-
-### Features
-
-* switch to using hashString to identify torrents as per the recommended specs ([f440858](https://github.com/telnetdoogie/transmission-trackers/commit/f4408581460c419184b875821e16d67dffb911a1))
 
 
 
