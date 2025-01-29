@@ -111,7 +111,7 @@ class TorrentUpdater:
                 print(f"  - WILL NOT update private torrent: {torrent.name}")
             return False
         # Do not (Can not) update torrents that have not been started
-        if torrent.is_stalled is True and torrent.activity_date < torrent.added_date:
+        if torrent.activity_date < torrent.added_date:
             if self.is_debug:
                 print(f"  - WILL NOT update unstarted torrent: {torrent.name}")
             return False
