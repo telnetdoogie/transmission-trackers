@@ -1,3 +1,12 @@
+# [1.3.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.2.2...v1.3.0) (2025-01-29)
+
+
+### Features
+
+* do not update uninitialized torrents [#28](https://github.com/telnetdoogie/transmission-trackers/issues/28) ([e6dca40](https://github.com/telnetdoogie/transmission-trackers/commit/e6dca40312edf533a9fa0c869fb1121c5a1c7dfe))
+
+
+
 ## [1.2.2](https://github.com/telnetdoogie/transmission-trackers/compare/v1.2.1...v1.2.2) (2024-12-13)
 
 
@@ -31,16 +40,6 @@
 ### Features
 
 * switch to using hashString to identify torrents as per the recommended specs ([f440858](https://github.com/telnetdoogie/transmission-trackers/commit/f4408581460c419184b875821e16d67dffb911a1))
-
-
-
-## [1.0.2](https://github.com/telnetdoogie/transmission-trackers/compare/v1.0.1...v1.0.2) (2024-11-29)
-
-
-### Bug Fixes
-
-* don't modify private torrents, reduced verbiage on torrent update ([2bb65c7](https://github.com/telnetdoogie/transmission-trackers/commit/2bb65c7ce63fc4d6d17bcd578552552d533d289e))
-* reduce logging verbosity; added torrent changes observed to logging ([a9d4e2c](https://github.com/telnetdoogie/transmission-trackers/commit/a9d4e2c52feb3a2453abb3b30509491399ed9bb7))
 
 
 
