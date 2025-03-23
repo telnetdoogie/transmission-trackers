@@ -1,11 +1,22 @@
 # telnetdoogie -  https://github.com/telnetdoogie/transmission-trackers
 import json
-import os
 import time
 
 from transmission_rpc import Torrent, Client
 
-from trackers_updater import TrackerUpdater
+
+def log_torrent_changes(old_name_list: list[str], new_name_list: list[str], active_count: int):
+    added_torrents = set(new_name_list) - set(old_name_list)
+    removed_torrents = set(old_name_list) - set(new_name_list)
+    print(f"Active torrents have changed ({active_count} active)")
+    for name in added_torrents:
+        print(f' - New torrent: "{name}"')
+    for name in removed_torrents:
+        print(f' - Torrent removed: "{name}"')
+
+
+def get_sorted_torrent_names(torrents: list[Torrent]):
+    return sorted(torrent.name for torrent in torrents)
 
 
 def torrent_info(torrent: Torrent):
@@ -15,61 +26,24 @@ def torrent_info(torrent: Torrent):
 
 class TorrentUpdater:
 
-    def __init__(self):
+    def __init__(self, user: str, password: str, host: str, port: int, period: int, debug, get_trackers):
 
         print("TorrentUpdater Initializing...")
         # defaults
-        self.user = "transmission"
-        self.password = "password"
-        self.host = "transmission"
-        self.port: int = 9091
-        self.trackers_list = "https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best.txt"
-        self.period: int = 120
-        self.tracker_expiration_time: int = 28800  # 8 hours
-        self.is_debug = False
-        self.override_params_from_env()
+        self.user = user
+        self.password = password
+        self.host = host
+        self.port = port
+        self.period = period
+        self.debug = debug
+        self.get_trackers = get_trackers
 
-        self.updater = TrackerUpdater(url=self.trackers_list, expiration_time=self.tracker_expiration_time, debug=self.is_debug)
-        self.updater.start()
-
-    def override_params_from_env(self):
-        # Map environment variable names to attributes
-        env_params = {
-            "TRANSMISSION_HOST": ("host", str),
-            "TRANSMISSION_PORT": ("port", int),
-            "TRACKERS_LIST": ("trackers_list", str),
-            "TRANSMISSION_USER": ("user", str),
-            "TRANSMISSION_PASS": ("password", str),
-            "TORRENT_CHECK_PERIOD": ("period", int),
-            "TRACKER_EXPIRATION": ("tracker_expiration_time", int),
-            "DEBUG": ("is_debug", bool),
-        }
-        # Seconds-based environment variables
-        seconds_variables = {"TORRENT_CHECK_PERIOD", "TRACKER_EXPIRATION"}
-
-        # Iterate over the mapping
-        for env_var, (attr, attr_type) in env_params.items():
-            value = os.getenv(env_var)
-            if value:
-                try:
-                    # Convert values to the correct type
-                    converted_value = attr_type(value)
-                    setattr(self, attr, converted_value)
-
-                    if env_var in seconds_variables:
-                        print(f"Setting {env_var} to {converted_value}s")
-                    else:
-                        print(f"Setting {env_var} to {converted_value}")
-                except ValueError:
-                    print(f"{env_var} passed was not a valid {attr_type.__name__}")
-                    exit(1)
-
-    def update_trackers(self, torrent: Torrent):
+    def update_trackers_for_torrent(self, torrent: Torrent):
 
         try:
             tc = Client(username=self.user, password=self.password, host=self.host, port=self.port)
             current_trackers = tc.get_torrent(torrent_id=torrent.hashString).tracker_list
-            new_trackers = self.updater.get_trackers()
+            new_trackers = self.get_trackers()
             # Make a union of current and new trackers
             all_trackers = list(set(new_trackers) | set(current_trackers))
             if sorted(current_trackers) != sorted(all_trackers):
@@ -80,8 +54,7 @@ class TorrentUpdater:
                 print(f' - Trackers updated for "{torrent.name}"')
         except Exception as e:
             print(f"An error occurred updating trackers: {e}")
-            if self.is_debug:
-                print(torrent_info(torrent))
+            self.debug(torrent_info(torrent))
 
     def get_torrents(self):
         try:
@@ -93,56 +66,33 @@ class TorrentUpdater:
             return []
 
     def main(self):
-        print("Waiting for the tracker updater to successfully load trackers...")
-        self.updater.initial_load_event.wait(timeout=300)  # Wait until trackers are loaded
-
-        if not self.updater.initial_load_event.is_set():
-            print("Failed to load trackers within the timeout period. Exiting.")
-            return
-
-        print("Trackers loaded.")
+        print("Checking and Updating Torrents...")
         self.check_and_update_torrents()
 
-    def can_update_torrent(self, torrent: Torrent):
-        # Do not update private torrents
-        if torrent.is_private:
-            if self.is_debug:
-                print(f"  - WILL NOT update private torrent: {torrent.name}")
+    def is_torrent_qualified_for_update(self, torrent: Torrent):
+        # Do not update private torrents or unstarted torrents
+        if torrent.is_private or torrent.activity_date < torrent.added_date:
+            self.debug(f"  - skipping torrent (not eligible): {torrent.id}")
             return False
-        # Do not (Can not) update torrents that have not been started
-        if torrent.activity_date < torrent.added_date:
-            if self.is_debug:
-                print(f"  - WILL NOT update unstarted torrent: {torrent.name}")
-            return False
-        if self.is_debug:
-            print(f"  - WILL attempt to update torrent: {torrent.name}")
         return True
 
     def check_and_update_torrents(self):
-        print(f"Watching for new torrents every {self.period} seconds...")
-        torrent_names = []
+        print(f"Watching for new active torrents every {self.period} seconds...")
+        torrent_names: list[str] = []
         while True:
+            # get the active torrents
             torrents: list[Torrent] = self.get_torrents()
-
-            # put active torrent names in a list
-            new_torrent_names = sorted(torrent.name for torrent in torrents)
-
+            # check for eligible torrents
+            eligible_torrents = [torrent for torrent in torrents if self.is_torrent_qualified_for_update(torrent)]
+            # put eligible torrent names in a list
+            new_eligible_torrent_names = get_sorted_torrent_names(eligible_torrents)
             # summarize the additions / deletions for output
-            if new_torrent_names != torrent_names:
-
-                added_torrents = set(new_torrent_names) - set(torrent_names)
-                removed_torrents = set(torrent_names) - set(new_torrent_names)
-
-                print(f"Active torrents have changed ({len(torrents)} active)")
-                for name in added_torrents:
-                    print(f' - New torrent: "{name}"')
-                for name in removed_torrents:
-                    print(f' - Torrent removed: "{name}"')
-                torrent_names = new_torrent_names
-
-            for torrent in torrents:
-                # don't change anything in private torrents
-                if self.can_update_torrent(torrent):
-                    self.update_trackers(torrent)
-
+            if new_eligible_torrent_names != torrent_names:
+                log_torrent_changes(torrent_names, new_eligible_torrent_names, len(eligible_torrents))
+                torrent_names = new_eligible_torrent_names
+            self.update_torrents(eligible_torrents)
             time.sleep(self.period)
+
+    def update_torrents(self, torrents: list[Torrent]):
+        for torrent in torrents:
+            self.update_trackers_for_torrent(torrent)
