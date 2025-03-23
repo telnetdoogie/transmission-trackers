@@ -82,7 +82,6 @@ class TorrentUpdater:
             print(f"An error occurred updating trackers: {e}")
             if self.is_debug:
                 print(torrent_info(torrent))
-        return
 
     def get_torrents(self):
         try:

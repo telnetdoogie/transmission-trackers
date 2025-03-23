@@ -38,7 +38,6 @@ class TrackerUpdater:
             print(f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(current_time))}: Trackers loaded from {self.url}")
             for index, tracker in enumerate(self.trackers):
                 print(f"  {index:02} : {tracker}")
-        pass
 
     def __load_trackers(self):
         with self.lock:
@@ -47,17 +46,12 @@ class TrackerUpdater:
                 response.raise_for_status()
                 trackers = [line for line in response.text.splitlines() if line.strip()]
                 current_time = time.time()
-                if self.trackers is None:
+                if self.trackers is None or self.trackers != trackers:
                     self.trackers = trackers
                     self.__print_trackers()
                 else:
-                    if self.trackers != trackers:
-                        # trackers have changed since last download
-                        self.trackers = trackers
-                        self.__print_trackers()
-                    else:
-                        print(
-                            f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(current_time))}: Trackers from {self.url} have not changed")
+                    print(
+                        f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(current_time))}: Trackers from {self.url} have not changed")
                 self.trackers_timestamp = current_time
                 self.initial_load_event.set()
             except requests.RequestException as e:
