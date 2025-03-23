@@ -6,7 +6,7 @@ import requests
 
 
 class TrackerUpdater:
-    def __init__(self, url, expiration_time: int, debug: bool = False):
+    def __init__(self, url, expiration_time: int, debug):
         print("TrackerUpdater Initializing...")
         self.url = url
         self.list_expiration_time = expiration_time
@@ -15,7 +15,7 @@ class TrackerUpdater:
         self.trackers_timestamp = None
         self.lock = threading.Lock()
         self.initial_load_event = threading.Event()
-        self.is_debug = debug
+        self.debug = debug
 
     def start(self):
         thread = threading.Thread(target=self.__run, daemon=True)
@@ -33,11 +33,11 @@ class TrackerUpdater:
             time.sleep(60 * 5)
 
     def __print_trackers(self):
-        if self.is_debug:
-            current_time = time.time()
-            print(f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(current_time))}: Trackers loaded from {self.url}")
-            for index, tracker in enumerate(self.trackers):
-                print(f"  {index:02} : {tracker}")
+        current_time = time.time()
+        self.debug(
+            f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(current_time))}: Trackers loaded from {self.url}")
+        for index, tracker in enumerate(self.trackers):
+            self.debug(f"  {index:02} : {tracker}")
 
     def __load_trackers(self):
         with self.lock:
