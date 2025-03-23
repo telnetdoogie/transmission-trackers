@@ -1,3 +1,12 @@
+# [1.4.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.3.2...v1.4.0) (2025-03-23)
+
+
+### Features
+
+* major refactor ([32c53b6](https://github.com/telnetdoogie/transmission-trackers/commit/32c53b66b10e98ef3681ddd8ba4c37488a678d68))
+
+
+
 ## [1.3.1](https://github.com/telnetdoogie/transmission-trackers/compare/v1.3.0...v1.3.1) (2025-01-29)
 
 
@@ -22,24 +31,6 @@
 ### Bug Fixes
 
 * testing attestations for docker images ([983e8f6](https://github.com/telnetdoogie/transmission-trackers/commit/983e8f6520aaafd26cdcdc47732197964b248237))
-
-
-
-## [1.2.1](https://github.com/telnetdoogie/transmission-trackers/compare/v1.2.0...v1.2.1) (2024-12-13)
-
-
-### Bug Fixes
-
-* run as non-root user ([d73bb73](https://github.com/telnetdoogie/transmission-trackers/commit/d73bb73541e0f92e62ad56b7cbe37fae19d228e1))
-
-
-
-# [1.2.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.1.0...v1.2.0) (2024-12-06)
-
-
-### Features
-
-* Only update trackers if they've changed ([04aed5b](https://github.com/telnetdoogie/transmission-trackers/commit/04aed5bcde129e7aa046ae5e6027308c1602130d))
 
 
 
