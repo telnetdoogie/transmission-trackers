@@ -47,6 +47,8 @@ class TrackerUpdater:
                 trackers = [line for line in response.text.splitlines() if line.strip()]
                 current_time = time.time()
                 if self.trackers is None or self.trackers != trackers:
+                    print(
+                        f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(current_time))}: Trackers from {self.url} updated")
                     self.trackers = trackers
                     self.__print_trackers()
                 else:
