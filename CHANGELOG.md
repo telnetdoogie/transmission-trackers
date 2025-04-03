@@ -1,3 +1,12 @@
+## [1.4.1](https://github.com/telnetdoogie/transmission-trackers/compare/v1.4.0...v1.4.1) (2025-04-03)
+
+
+### Bug Fixes
+
+* Output when trackers are updated ([89867bf](https://github.com/telnetdoogie/transmission-trackers/commit/89867bfebbf2fdb395cb0b34208a995e7eee6c04))
+
+
+
 # [1.4.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.3.2...v1.4.0) (2025-03-23)
 
 
@@ -22,15 +31,6 @@
 ### Features
 
 * do not update uninitialized torrents [#28](https://github.com/telnetdoogie/transmission-trackers/issues/28) ([e6dca40](https://github.com/telnetdoogie/transmission-trackers/commit/e6dca40312edf533a9fa0c869fb1121c5a1c7dfe))
-
-
-
-## [1.2.2](https://github.com/telnetdoogie/transmission-trackers/compare/v1.2.1...v1.2.2) (2024-12-13)
-
-
-### Bug Fixes
-
-* testing attestations for docker images ([983e8f6](https://github.com/telnetdoogie/transmission-trackers/commit/983e8f6520aaafd26cdcdc47732197964b248237))
 
 
 
