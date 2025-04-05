@@ -26,13 +26,12 @@ jobs:
           echo "Tag: ${{ steps.changelog.outputs.tag }}"
           echo "Clean Changelog: ${{ steps.changelog.outputs.clean_changelog }}"
           echo "Outputs Skipped: ${{ steps.changelog.outputs.skipped }}"
-      - name: Create Release # This action will create the actual release
-        uses: actions/create-release@v1
+      - name: Auto-Create Release
+        uses: softprops/action-gh-release@v2 # auto create a tag and release
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
+          token: ${{ secrets.GH_TOKEN }}
           tag_name: ${{ steps.changelog.outputs.tag }}
-          release_name: ${{ steps.changelog.outputs.tag }}
           body: ${{ steps.changelog.outputs.clean_changelog }}
+          make_latest: true
 
