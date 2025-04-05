@@ -1,14 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    "group:allNonMajor",
+    "helpers:pinGitHubActionDigests"
   ],
   "prHourlyLimit": 3,
   "packageRules": [
     {
-      "matchUpdateTypes": [
-        "major"
-      ],
       "dependencyDashboardApproval": true
     }
   ]
