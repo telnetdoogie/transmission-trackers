@@ -1,3 +1,12 @@
+## [1.4.2](https://github.com/telnetdoogie/transmission-trackers/compare/v1.4.1...v1.4.2) (2025-04-05)
+
+
+### Bug Fixes
+
+* Update auto-release to remove deprecated action ([62b55f9](https://github.com/telnetdoogie/transmission-trackers/commit/62b55f9a765abb004b49accd77c13902e501b97f))
+
+
+
 ## [1.4.1](https://github.com/telnetdoogie/transmission-trackers/compare/v1.4.0...v1.4.1) (2025-04-03)
 
 
@@ -22,15 +31,6 @@
 ### Bug Fixes
 
 * ignore is_stalled as unstarted, since when first adding the torrent it will not show as stalled. [#28](https://github.com/telnetdoogie/transmission-trackers/issues/28) ([8108cf8](https://github.com/telnetdoogie/transmission-trackers/commit/8108cf8f3f6af20a72c9ca5b952b6379b5de5347))
-
-
-
-# [1.3.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.2.2...v1.3.0) (2025-01-29)
-
-
-### Features
-
-* do not update uninitialized torrents [#28](https://github.com/telnetdoogie/transmission-trackers/issues/28) ([e6dca40](https://github.com/telnetdoogie/transmission-trackers/commit/e6dca40312edf533a9fa0c869fb1121c5a1c7dfe))
 
 
 
