@@ -1,3 +1,12 @@
+## [1.4.3](https://github.com/telnetdoogie/transmission-trackers/compare/v1.4.2...v1.4.3) (2025-04-11)
+
+
+### Bug Fixes
+
+* resolve xz vulnerability in base alpine image - CVE-2025-31115 ([d02f1fc](https://github.com/telnetdoogie/transmission-trackers/commit/d02f1fc58f3f1efd26a0f02ec28b897cada3c29a))
+
+
+
 ## [1.4.2](https://github.com/telnetdoogie/transmission-trackers/compare/v1.4.1...v1.4.2) (2025-04-05)
 
 
@@ -22,15 +31,6 @@
 ### Features
 
 * major refactor ([32c53b6](https://github.com/telnetdoogie/transmission-trackers/commit/32c53b66b10e98ef3681ddd8ba4c37488a678d68))
-
-
-
-## [1.3.1](https://github.com/telnetdoogie/transmission-trackers/compare/v1.3.0...v1.3.1) (2025-01-29)
-
-
-### Bug Fixes
-
-* ignore is_stalled as unstarted, since when first adding the torrent it will not show as stalled. [#28](https://github.com/telnetdoogie/transmission-trackers/issues/28) ([8108cf8](https://github.com/telnetdoogie/transmission-trackers/commit/8108cf8f3f6af20a72c9ca5b952b6379b5de5347))
 
 
 
