@@ -1,3 +1,12 @@
+# [1.5.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.4.3...v1.5.0) (2025-06-16)
+
+
+### Features
+
+* **deps:** release for updated dependencies ([075933f](https://github.com/telnetdoogie/transmission-trackers/commit/075933fd73f03a63bdf00d7d04fbe6c464436cf6))
+
+
+
 ## [1.4.3](https://github.com/telnetdoogie/transmission-trackers/compare/v1.4.2...v1.4.3) (2025-04-11)
 
 
