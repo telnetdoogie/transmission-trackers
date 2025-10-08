@@ -1,3 +1,12 @@
+# [1.7.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.6.0...v1.7.0) (2025-10-08)
+
+
+### Features
+
+* **deps:** bump release for updated dependencies ([8859b20](https://github.com/telnetdoogie/transmission-trackers/commit/8859b209a980cc97a83e83423bed423239630a40))
+
+
+
 # [1.6.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.5.0...v1.6.0) (2025-08-08)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * Update auto-release to remove deprecated action ([62b55f9](https://github.com/telnetdoogie/transmission-trackers/commit/62b55f9a765abb004b49accd77c13902e501b97f))
-
-
-
-## [1.4.1](https://github.com/telnetdoogie/transmission-trackers/compare/v1.4.0...v1.4.1) (2025-04-03)
-
-
-### Bug Fixes
-
-* Output when trackers are updated ([89867bf](https://github.com/telnetdoogie/transmission-trackers/commit/89867bfebbf2fdb395cb0b34208a995e7eee6c04))
 
 
 
