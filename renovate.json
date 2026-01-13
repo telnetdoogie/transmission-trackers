@@ -3,7 +3,8 @@
   "extends": [
     "config:recommended",
     "group:allNonMajor",
-    "helpers:pinGitHubActionDigests"
+    "helpers:pinGitHubActionDigests",
+    "automerge": true
   ],
   "prHourlyLimit": 3,
   "packageRules": [
@@ -11,7 +12,8 @@
       "matchUpdateTypes": [
         "major"
       ],
-      "dependencyDashboardApproval": true
+      "dependencyDashboardApproval": true,
+      "automerge": true
     }
   ]
 }
