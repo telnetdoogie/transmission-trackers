@@ -12,7 +12,7 @@ jobs:
       ACTIONS_STEP_DEBUG: true
     steps:
       - name: Checkout code
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6 # Checkout our working repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6 # Checkout our working repository
       - name: Conventional Changelog Action
         id: changelog
         uses: TriPSs/conventional-changelog-action@84dadaf2c367cb52af02737cd9c7e888807219e7 # v6
