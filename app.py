@@ -14,7 +14,8 @@ class App:
         self.password = "password"
         self.host = "transmission"
         self.port: int = 9091
-        self.trackers_list = "https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best.txt"
+        self.trackers_list = "https://newtrackon.com/api/stable"
+        # self.trackers_list = "https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best.txt"
         self.period: int = 120
         self.tracker_expiration_time: int = 28800  # 8 hours
         self.is_debug = False
@@ -66,7 +67,10 @@ class App:
             if value:
                 try:
                     # Convert values to the correct type
-                    converted_value = attr_type(value)
+                    if attr_type is bool:
+                        converted_value = value.lower() in ("true", "yes", "1")
+                    else:
+                        converted_value = attr_type(value)
                     setattr(self, attr, converted_value)
                     print(f"Setting {env_var} to {converted_value}{'s' if env_var in seconds_variables else ''}")
                 except ValueError:
