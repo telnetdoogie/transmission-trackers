@@ -1,3 +1,13 @@
+# [1.9.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.8.0...v1.9.0) (2026-02-13)
+
+
+### Features
+
+* **deps:** bump release for updated dependencies ([12c05f2](https://github.com/telnetdoogie/transmission-trackers/commit/12c05f202d5c1fae305cffbfb4c58c660cbd6ebd))
+* switched to newtrackon stable list as default. ([5d412bc](https://github.com/telnetdoogie/transmission-trackers/commit/5d412bc61386219a5902c16a969ba37fb6c67434))
+
+
+
 # [1.8.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.7.0...v1.8.0) (2025-12-08)
 
 
@@ -31,15 +41,6 @@
 ### Features
 
 * **deps:** release for updated dependencies ([075933f](https://github.com/telnetdoogie/transmission-trackers/commit/075933fd73f03a63bdf00d7d04fbe6c464436cf6))
-
-
-
-## [1.4.3](https://github.com/telnetdoogie/transmission-trackers/compare/v1.4.2...v1.4.3) (2025-04-11)
-
-
-### Bug Fixes
-
-* resolve xz vulnerability in base alpine image - CVE-2025-31115 ([d02f1fc](https://github.com/telnetdoogie/transmission-trackers/commit/d02f1fc58f3f1efd26a0f02ec28b897cada3c29a))
 
 
 
