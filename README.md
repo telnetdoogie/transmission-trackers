@@ -4,7 +4,7 @@
 
 This minimal-config docker image will run alongside your transmission installation, check for active non-private torrents, and update their trackers (add additional trackers) using a user-defined tracker-list such as the ones provided by [@ngosang](https://github.com/ngosang) at https://github.com/ngosang/trackerslist or [@corralpeltzer](https://github.com/CorralPeltzer)'s [newTrackOn Lists](https://newtrackon.com/)
 
-The tracker list will only be downloaded every 8 hours by default (the example list only changes once per day on average), but this frequency can be modified by environment variables.
+The tracker list will only be downloaded every 8 hours by default, but this frequency can be modified by environment variables.
 
 Torrents are checked every 2 minutes (this can also be customized by environment variables)
 
