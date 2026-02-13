@@ -13,6 +13,13 @@ If a torrent already has the additional trackers present, no changes will be mad
 Please note this is a v1 project. While it's been tested on my own setup, there may be issues and configurations that have not been fully tested. 
 Report issues in [Issues](https://github.com/telnetdoogie/transmission-trackers/issues)
 
+## transmission-trackers in action
+
+<p align="center" width="100%">
+<video src="https://github.com/user-attachments/assets/5c62b66b-389b-4e1d-90af-c1eecbc8c309" width="80%" controls></video>
+</p>
+
+
 ## Running from `docker` command-line
 
 Add additional environment variables as needed; see the table below for details.
