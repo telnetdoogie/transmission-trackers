@@ -2,9 +2,9 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/telnetdoogie/transmission-trackers/badge/main)](https://www.codefactor.io/repository/github/telnetdoogie/transmission-trackers/overview/main)
 
-This minimal-config docker image will run alongside your transmission installation, check for active torrents, and update their trackers (add additional trackers) using a user-defined tracker-list such as the ones provided by [@ngosang](https://github.com/ngosang) at https://github.com/ngosang/trackerslist.
+This minimal-config docker image will run alongside your transmission installation, check for active non-private torrents, and update their trackers (add additional trackers) using a user-defined tracker-list such as the ones provided by [@ngosang](https://github.com/ngosang) at https://github.com/ngosang/trackerslist or [@corralpeltzer](https://github.com/CorralPeltzer)'s [newTrackOn Lists](https://newtrackon.com/)
 
-The tracker list will only be downloaded every 8 hours by default (the example list only changes once per day on average) but this frequency can be modified by environment variables.
+The tracker list will only be downloaded every 8 hours by default (the example list only changes once per day on average), but this frequency can be modified by environment variables.
 
 Torrents are checked every 2 minutes (this can also be customized by environment variables)
 
@@ -15,12 +15,23 @@ Report issues in [Issues](https://github.com/telnetdoogie/transmission-trackers/
 
 ## Running from `docker` command-line
 
+Add additional environment variables as needed; see the table below for details.
+
+### _with (default) newtrackon stable list_
+```console
+docker run --rm --name transmission-trackers \
+    -e TRANSMISSION_HOST=transmission \
+    telnetdoogie/transmission-trackers:latest
+```
+
+### _with ngosang's best trackers list_
 ```console
 docker run --rm --name transmission-trackers \
     -e TRANSMISSION_HOST=transmission \
     -e TRACKERS_LIST=https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best_ip.txt \
     telnetdoogie/transmission-trackers:latest
 ```
+
 
 ## Running from `docker-compose`
 
@@ -33,6 +44,7 @@ services:
     environment:
       TRANSMISSION_HOST: 192.168.1.225  # ip or name of your transmission instance
       TRANSMISSION_PORT: 9092           # no need for this setting if transmission is running on the default port 
+      TRACKERS_LIST: https://newtrackon.com/api/98?min_age_days=5 # use any URL that returns a line-separated list of trackers
     restart: unless-stopped
 ```
 
@@ -42,15 +54,21 @@ See the table of Environment variables you can add below to either `docker-compo
 
 You can set these as needed to override the defaults. If the defaults are acceptable, there is no need to add the variables.
 
-| Variable               | Description                                                                           | Default Value                                                                     |
-|------------------------|---------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| `TRANSMISSION_HOST`    | IP or hostname of transmission host                                                   | `transmission`                                                                    |
-| `TRANSMISSION_PORT`    | Port of transmission host                                                             | `9091`                                                                            |
-| `TRACKERS_LIST`        | URL for tracker list                                                                  | `https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best.txt` |
-| `TRANSMISSION_USER`    | Username for transmission. Ignore if no auth needed.                                  | `transmission`                                                                    |
-| `TRANSMISSION_PASS`    | Password for transmission. Ignore if no auth needed.                                  | `password`                                                                        |
-| `TORRENT_CHECK_PERIOD` | How frequent (in seconds) we'll check for active torrents                             | `120` (2 minutes)                                                                 |
-| `TRACKER_EXPIRATION`   | How long downloaded tracker list will kept (in seconds) before downloading the latest | `28800` (8 hours)                                                                 |
-| `DEBUG`                | Enables more verbose output for tracker and torrent updates                           | `False`                                                                           |
+| Variable               | Description                                                                           | Default Value                       |
+|------------------------|---------------------------------------------------------------------------------------|-------------------------------------|
+| `TRANSMISSION_HOST`    | IP or hostname of transmission host                                                   | `transmission`                      |
+| `TRANSMISSION_PORT`    | Port of transmission host                                                             | `9091`                              |
+| `TRACKERS_LIST`        | URL for tracker list                                                                  | `https://newtrackon.com/api/stable` |
+| `TRANSMISSION_USER`    | Username for transmission. Ignore if no auth needed.                                  | `transmission`                      |
+| `TRANSMISSION_PASS`    | Password for transmission. Ignore if no auth needed.                                  | `password`                          |
+| `TORRENT_CHECK_PERIOD` | How frequent (in seconds) we'll check for active torrents                             | `120` (2 minutes)                   |
+| `TRACKER_EXPIRATION`   | How long downloaded tracker list will kept (in seconds) before downloading the latest | `28800` (8 hours)                   |
+| `DEBUG`                | Enables more verbose output for tracker and torrent updates                           | `False`                             |
 
+## Which List Should I Use?
 
+You can use any URL that returns a line-separated list of trackers, so find your favorite list and use that one. I have not added support to combine lists, nor currently will this remove trackers that fall off the lists as they're updated, but if there's demand for that, it could be added. 
+
+In the case of the newtrackon list, you can use the API as you see fit:
+- `https://newtrackon.com/api/stable` - stable list
+- `https://newtrackon.com/api/98?min_age_days=5` - list with 98%+ uptime, and 5+ tracker age in days
