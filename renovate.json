@@ -5,13 +5,17 @@
     "group:allNonMajor",
     "helpers:pinGitHubActionDigests"
   ],
-  "prHourlyLimit": 3,
   "packageRules": [
     {
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "dependencyDashboardApproval": true
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "CI Dependencies"
+    },
+    {
+      "groupName": "CI Dependencies",
+      "matchUpdateTypes": ["patch", "digest"],
+      "automerge": true,
+      "automergeType": "pr"
     }
   ]
 }
