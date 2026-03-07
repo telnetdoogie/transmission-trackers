@@ -26,7 +26,7 @@ def torrent_info(torrent: Torrent):
 
 class TorrentUpdater:
 
-    def __init__(self, user: str, password: str, host: str, port: int, period: int, debug, get_trackers):
+    def __init__(self, user: str, password: str, host: str, port: int, period: int, ignore_private, debug, get_trackers):
 
         print("TorrentUpdater Initializing...")
         # defaults
@@ -35,6 +35,7 @@ class TorrentUpdater:
         self.host = host
         self.port = port
         self.period = period
+        self.ignore_private = ignore_private
         self.debug = debug
         self.get_trackers = get_trackers
 
@@ -70,10 +71,20 @@ class TorrentUpdater:
         self.check_and_update_torrents()
 
     def is_torrent_qualified_for_update(self, torrent: Torrent):
-        # Do not update private torrents or unstarted torrents
-        if torrent.is_private or torrent.activity_date < torrent.added_date:
-            self.debug(f"  - skipping torrent (not eligible): {torrent.id}")
+        # Skip private torrents unless ignore_private is True
+        if torrent.is_private and not self.ignore_private:
+            self.debug(f"  - skipping torrent (private): {torrent.id}")
             return False
+        
+        # Skip unstarted torrents
+        if torrent.activity_date < torrent.added_date:
+            self.debug(f"  - skipping torrent (not started yet): {torrent.id}")
+            return False
+        
+        # Log if processing a private torrent with bypass enabled
+        if torrent.is_private and self.ignore_private:
+            self.debug(f"  - processing private torrent (ignore_private enabled): {torrent.id}")
+        
         return True
 
     def check_and_update_torrents(self):

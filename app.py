@@ -17,6 +17,7 @@ class App:
         self.trackers_list = "https://newtrackon.com/api/stable"
         # self.trackers_list = "https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best.txt"
         self.period: int = 120
+        self.ignore_private = False
         self.tracker_expiration_time: int = 28800  # 8 hours
         self.is_debug = False
 
@@ -26,8 +27,8 @@ class App:
                                                               expiration_time=self.tracker_expiration_time,
                                                               debug=self.debug)
         self.torrent_updater: TorrentUpdater = TorrentUpdater(user=self.user, password=self.password, host=self.host,
-                                                              port=self.port, period=self.period, debug=self.debug,
-                                                              get_trackers=self.tracker_updater.get_trackers)
+                                                              port=self.port, period=self.period, ignore_private=self.ignore_private,
+                                                              debug=self.debug, get_trackers=self.tracker_updater.get_trackers)
 
     def main(self):
 
@@ -55,6 +56,7 @@ class App:
             "TRANSMISSION_USER": ("user", str),
             "TRANSMISSION_PASS": ("password", str),
             "TORRENT_CHECK_PERIOD": ("period", int),
+            "TORRENT_IGNORE_PRIVATE": ("ignore_private", bool),
             "TRACKER_EXPIRATION": ("tracker_expiration_time", int),
             "DEBUG": ("is_debug", bool),
         }

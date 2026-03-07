@@ -61,16 +61,17 @@ See the table of Environment variables you can add below to either `docker-compo
 
 You can set these as needed to override the defaults. If the defaults are acceptable, there is no need to add the variables.
 
-| Variable               | Description                                                                           | Default Value                       |
-|------------------------|---------------------------------------------------------------------------------------|-------------------------------------|
-| `TRANSMISSION_HOST`    | IP or hostname of transmission host                                                   | `transmission`                      |
-| `TRANSMISSION_PORT`    | Port of transmission host                                                             | `9091`                              |
-| `TRACKERS_LIST`        | URL for tracker list                                                                  | `https://newtrackon.com/api/stable` |
-| `TRANSMISSION_USER`    | Username for transmission. Ignore if no auth needed.                                  | `transmission`                      |
-| `TRANSMISSION_PASS`    | Password for transmission. Ignore if no auth needed.                                  | `password`                          |
-| `TORRENT_CHECK_PERIOD` | How frequent (in seconds) we'll check for active torrents                             | `120` (2 minutes)                   |
-| `TRACKER_EXPIRATION`   | How long downloaded tracker list will kept (in seconds) before downloading the latest | `28800` (8 hours)                   |
-| `DEBUG`                | Enables more verbose output for tracker and torrent updates                           | `False`                             |
+| Variable                  | Description                                                                           | Default Value                       |
+|---------------------------|---------------------------------------------------------------------------------------|-------------------------------------|
+| `TRANSMISSION_HOST`       | IP or hostname of transmission host                                                   | `transmission`                      |
+| `TRANSMISSION_PORT`       | Port of transmission host                                                             | `9091`                              |
+| `TRACKERS_LIST`           | URL for tracker list                                                                  | `https://newtrackon.com/api/stable` |
+| `TRANSMISSION_USER`       | Username for transmission. Ignore if no auth needed.                                  | `transmission`                      |
+| `TRANSMISSION_PASS`       | Password for transmission. Ignore if no auth needed.                                  | `password`                          |
+| `TORRENT_CHECK_PERIOD`    | How frequent (in seconds) we'll check for active torrents                             | `120` (2 minutes)                   |
+| `TORRENT_IGNORE_PRIVATE`  | Allow processing private torrents (bypass private torrent check)                      | `False`                             |
+| `TRACKER_EXPIRATION`      | How long downloaded tracker list will kept (in seconds) before downloading the latest | `28800` (8 hours)                   |
+| `DEBUG`                   | Enables more verbose output for tracker and torrent updates                           | `False`                             |
 
 ## Which List Should I Use?
 
