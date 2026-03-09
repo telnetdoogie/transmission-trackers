@@ -56,7 +56,7 @@ jobs:
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
         id: meta
-        uses: docker/metadata-action@85e876bd3a78bcc6b9925c818c482e365cf13b71
+        uses: docker/metadata-action@f58488e2659d6b48d33bf75cb4af197793ce477f
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           # generate Docker tags based on the following events/attributes
@@ -69,7 +69,7 @@ jobs:
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
         id: build-and-push
-        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
+        uses: docker/build-push-action@f64672cf50fa6f34ab7b194daf79d0161632a3ae
         with:
           context: .
           platforms: linux/amd64,linux/arm64,linux/arm/v7
