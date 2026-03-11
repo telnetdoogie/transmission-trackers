@@ -73,6 +73,62 @@ You can set these as needed to override the defaults. If the defaults are accept
 | `TRACKER_EXPIRATION`      | How long downloaded tracker list will kept (in seconds) before downloading the latest | `28800` (8 hours)                   |
 | `DEBUG`                   | Enables more verbose output for tracker and torrent updates                           | `False`                             |
 
+## Advanced Environment Variables: Private Torrent Tracker Replacement
+
+⚠️ **WARNING: USE WITH CAUTION** ⚠️
+
+The following variables allow you to replace trackers on **private torrents**. This is an advanced feature with important implications:
+
+### ⚠️ **EXPLICIT WARNING - READ BEFORE USE:**
+
+**Modifying trackers on private torrents can have serious consequences:**
+- **Account Bans**: Private torrent sites may ban your account if trackers are modified without authorization
+- **Data Loss**: Changed trackers may expose your torrent activity or cause data loss
+- **Ratio Issues**: Tracker changes may disrupt your upload/download ratio tracking on private sites
+- **Legal Issues**: Bypassing private tracker restrictions could violate terms of service
+- **Loss of Access**: You may permanently lose access to private torrent communities
+
+**This feature should ONLY be used if you fully understand and accept these risks.** It is designed for specific use cases like replacing dead/zombie trackers with approved alternatives, NOT for general tracker modification.
+
+### Configuration
+
+| Variable                       | Description                                                                           | Default Value |
+|--------------------------------|---------------------------------------------------------------------------------------|----------------|
+| `OVERRIDE_PRIVATE`             | **REQUIRED**: Set to `true` to enable private torrent tracker replacement. **Must be explicitly set to activate this feature.** | `false`        |
+| `ZOMBIE_TRACKERS_LISTE_MATCH`  | URL returning a line-separated list of trackers to detect/remove from private torrents. Only trackers in this list will be replaced. | `null`         |
+| `ZOMBIE_TRACKERS_LISTE_REPLACE`| URL returning a line-separated list of replacement trackers to add when a match is found. | `null`         |
+
+### How It Works
+
+1. When a private torrent is detected AND `OVERRIDE_PRIVATE=true`:
+2. The app checks if any of the torrent's current trackers match the list from `ZOMBIE_TRACKERS_LISTE_MATCH`
+3. If a match is found, trackers matching the list are **removed** and trackers from `ZOMBIE_TRACKERS_LISTE_REPLACE` are **added**
+4. Other trackers on the torrent are **preserved**
+
+### Example Use Case
+
+Replace dead/zombie trackers on a private torrent:
+
+```yaml
+services:
+  transmission-trackers:
+    container_name: transmission-trackers
+    image: telnetdoogie/transmission-trackers:latest
+    environment:
+      TRANSMISSION_HOST: 192.168.1.225
+      OVERRIDE_PRIVATE: "true"
+      ZOMBIE_TRACKERS_LISTE_MATCH: https://example.com/zombie_trackers.txt
+      ZOMBIE_TRACKERS_LISTE_REPLACE: https://example.com/replacement_trackers.txt
+    restart: unless-stopped
+```
+
+### ⚠️ **REMINDER**
+
+- **Leave `OVERRIDE_PRIVATE` as `false` (default) unless you have a specific, legitimate reason to enable it**
+- **Always verify the replacement tracker lists are approved by the private tracker site**
+- **Test with a non-critical torrent first**
+- **The authors assume NO responsibility for bans, data loss, or other consequences from using this feature**
+
 ## Which List Should I Use?
 
 You can use any URL that returns a line-separated list of trackers, so find your favorite list and use that one. I have not added support to combine lists, nor currently will this remove trackers that fall off the lists as they're updated, but if there's demand for that, it could be added. 
