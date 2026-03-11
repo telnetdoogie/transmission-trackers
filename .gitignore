@@ -1,3 +1,4 @@
 /.idea/
 /venv/
 *pycache*
+/transmission_trackers.egg-info/
