@@ -2,15 +2,14 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/telnetdoogie/transmission-trackers/badge/main)](https://www.codefactor.io/repository/github/telnetdoogie/transmission-trackers/overview/main)
 
-This minimal-config docker image will run alongside your transmission installation, check for active non-private torrents, and update their trackers (add additional trackers) using a user-defined tracker-list such as the ones provided by [@ngosang](https://github.com/ngosang) at https://github.com/ngosang/trackerslist or [@corralpeltzer](https://github.com/CorralPeltzer)'s [newTrackOn Lists](https://newtrackon.com/)
+This minimal-config app / docker image will run alongside your transmission installation, check for active non-private torrents, and update their trackers (add additional trackers) using a user-defined tracker-list such as the ones provided by [@ngosang](https://github.com/ngosang) at https://github.com/ngosang/trackerslist or [@corralpeltzer](https://github.com/CorralPeltzer)'s [newTrackOn Lists](https://newtrackon.com/)
 
 The tracker list will only be downloaded every 8 hours by default, but this frequency can be modified by environment variables.
 
 Torrents are checked every 2 minutes (this can also be customized by environment variables)
 
 If a torrent already has the additional trackers present, no changes will be made. This app will also not make any tracker modifications to torrents flagged as private.
-
-Please note this is a v1 project. While it's been tested on my own setup, there may be issues and configurations that have not been fully tested. 
+ 
 Report issues in [Issues](https://github.com/telnetdoogie/transmission-trackers/issues)
 
 ## transmission-trackers in action
@@ -19,6 +18,26 @@ Report issues in [Issues](https://github.com/telnetdoogie/transmission-trackers/
 <video src="https://github.com/user-attachments/assets/5c62b66b-389b-4e1d-90af-c1eecbc8c309" width="80%" controls></video>
 </p>
 
+---
+
+## Running from command line as a python app in Windows:
+
+```cmd
+    git clone https://github.com/telnetdoogie/transmission-trackers
+    cd transmission-trackers
+
+    python -m venv venv
+    venv\Scripts\activate
+
+    pip install -r requirements.txt
+
+    set TRANSMISSION_HOST=localhost
+
+    python app.py
+```
+Obviously, set any additional enviroment variables as per the table below.
+
+---
 
 ## Running from `docker` command-line
 
@@ -39,6 +58,7 @@ docker run --rm --name transmission-trackers \
     telnetdoogie/transmission-trackers:latest
 ```
 
+---
 
 ## Running from `docker-compose`
 
@@ -54,6 +74,8 @@ services:
       TRACKERS_LIST: https://newtrackon.com/api/98?min_age_days=5 # use any URL that returns a line-separated list of trackers
     restart: unless-stopped
 ```
+
+---
 
 ## Environment Variables:
 
@@ -71,6 +93,8 @@ You can set these as needed to override the defaults. If the defaults are accept
 | `TORRENT_CHECK_PERIOD` | How frequent (in seconds) we'll check for active torrents                             | `120` (2 minutes)                   |
 | `TRACKER_EXPIRATION`   | How long downloaded tracker list will kept (in seconds) before downloading the latest | `28800` (8 hours)                   |
 | `DEBUG`                | Enables more verbose output for tracker and torrent updates                           | `False`                             |
+
+---
 
 ## Which List Should I Use?
 
