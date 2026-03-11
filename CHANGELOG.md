@@ -1,3 +1,12 @@
+## [1.9.2](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.1...v1.9.2) (2026-03-11)
+
+
+### Bug Fixes
+
+* add toml for easier cmd-line install ([2d3b49c](https://github.com/telnetdoogie/transmission-trackers/commit/2d3b49cd935d098a65bfcbff4bf7f00f3bf2d509))
+
+
+
 ## [1.9.1](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.0...v1.9.1) (2026-03-11)
 
 
@@ -32,15 +41,6 @@
 ### Features
 
 * **deps:** bump release for updated dependencies ([8859b20](https://github.com/telnetdoogie/transmission-trackers/commit/8859b209a980cc97a83e83423bed423239630a40))
-
-
-
-# [1.6.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.5.0...v1.6.0) (2025-08-08)
-
-
-### Features
-
-* **deps:** bump release for updated dependencies ([66523f0](https://github.com/telnetdoogie/transmission-trackers/commit/66523f036a74e8fe86f6db52e501fe3b499cb4f4))
 
 
 
