@@ -1,0 +1,9 @@
+[project]
+name = "transmission-trackers"
+dependencies = [
+    "requests",
+    "transmission-rpc"
+]
+
+[project.scripts]
+transmission-trackers = "app:main"
