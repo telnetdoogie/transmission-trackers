@@ -23,23 +23,15 @@ Report issues in [Issues](https://github.com/telnetdoogie/transmission-trackers/
 ## Running from command line as a python app:
 ### Windows (cmd) 
 ```cmd
-git clone https://github.com/telnetdoogie/transmission-trackers
-cd transmission-trackers
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
+pip install git+https://github.com/telnetdoogie/transmission-trackers
 set TRANSMISSION_HOST=localhost
-python app.py
+transmission-trackers
 ```
 ### Linux / macOS 
 ```bash
-git clone https://github.com/telnetdoogie/transmission-trackers
-cd transmission-trackers
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+pip install git+https://github.com/telnetdoogie/transmission-trackers
 export TRANSMISSION_HOST=localhost
-python app.py 
+transmission-trackers
 ``` 
 _*Obviously, set any additional environment variables as per the table below._
 
