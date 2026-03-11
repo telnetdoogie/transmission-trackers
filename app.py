@@ -91,6 +91,7 @@ def main():
         app.main()
     except KeyboardInterrupt:
         print("Exiting...")
+        return 0
 
 if __name__ == "__main__":
     main()
