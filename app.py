@@ -30,21 +30,23 @@ class App:
                                                               get_trackers=self.tracker_updater.get_trackers)
 
     def main(self):
+        try:
+            # Start the tracker updater
+            self.tracker_updater.start()
 
-        # Start the tracker updater
-        self.tracker_updater.start()
+            print("Waiting for the tracker updater to successfully load trackers...")
+            self.tracker_updater.initial_load_event.wait(timeout=300)  # Wait until trackers are loaded
 
-        print("Waiting for the tracker updater to successfully load trackers...")
-        self.tracker_updater.initial_load_event.wait(timeout=300)  # Wait until trackers are loaded
+            if not self.tracker_updater.initial_load_event.is_set():
+                print("Failed to load trackers within the timeout period. Exiting.")
+                return
 
-        if not self.tracker_updater.initial_load_event.is_set():
-            print("Failed to load trackers within the timeout period. Exiting.")
-            return
+            print("Trackers loaded.")
 
-        print("Trackers loaded.")
-
-        # Once the trackers are loaded, start the torrent updater
-        self.torrent_updater.main()
+            # Once the trackers are loaded, start the torrent updater
+            self.torrent_updater.main()
+        except KeyboardInterrupt:
+            print("Exiting...")
 
     def override_params_from_env(self):
         # Map environment variable names to attributes
@@ -86,10 +88,7 @@ class App:
 
 def main():
     app = App()
-    try:
-        app.main()
-    except KeyboardInterrupt:
-        print("Exiting...")
+    app.main()
 
 if __name__ == "__main__":
     main()
