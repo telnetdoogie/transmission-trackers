@@ -84,12 +84,11 @@ class App:
 
 
 if __name__ == "__main__":
+    main()
+
+def main():
     app = App()
     try:
         app.main()
     except KeyboardInterrupt:
         print("Exiting...")
-
-def main():
-    app = App()
-    app.main()
