@@ -86,12 +86,12 @@ class App:
 
 
 def main():
+    app = App()
     try:
-        app = App()
         app.main()
     except KeyboardInterrupt:
         print("Exiting...")
-        return 0
+        app.tracker_updater.stop()
 
 if __name__ == "__main__":
     main()
