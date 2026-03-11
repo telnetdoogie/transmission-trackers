@@ -64,7 +64,7 @@ class App:
         # Iterate over the mapping
         for env_var, (attr, attr_type) in env_params.items():
             value = os.getenv(env_var)
-            if value:
+            if value is not None:
                 try:
                     # Convert values to the correct type
                     if attr_type is bool:
@@ -85,4 +85,7 @@ class App:
 
 if __name__ == "__main__":
     app = App()
-    app.main()
+    try:
+        app.main()
+    except KeyboardInterrupt:
+        print("Exiting...")
