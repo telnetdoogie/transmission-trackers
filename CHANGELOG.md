@@ -1,3 +1,12 @@
+## [1.9.1](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.0...v1.9.1) (2026-03-11)
+
+
+### Bug Fixes
+
+* Graceful Exit, ([42c1ab6](https://github.com/telnetdoogie/transmission-trackers/commit/42c1ab6e33ca06207431c069b9a0fe2028a87504))
+
+
+
 # [1.9.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.8.0...v1.9.0) (2026-02-13)
 
 
@@ -32,15 +41,6 @@
 ### Features
 
 * **deps:** bump release for updated dependencies ([66523f0](https://github.com/telnetdoogie/transmission-trackers/commit/66523f036a74e8fe86f6db52e501fe3b499cb4f4))
-
-
-
-# [1.5.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.4.3...v1.5.0) (2025-06-16)
-
-
-### Features
-
-* **deps:** release for updated dependencies ([075933f](https://github.com/telnetdoogie/transmission-trackers/commit/075933fd73f03a63bdf00d7d04fbe6c464436cf6))
 
 
 
