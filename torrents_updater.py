@@ -26,17 +26,8 @@ def torrent_info(torrent: Torrent):
 
 class TorrentUpdater:
 
-    def __init__(self,
-                 user: str,
-                 password: str,
-                 host: str,
-                 port: int,
-                 period: int,
-                 debug,
-                 get_trackers,
-                 override_private: bool = False,
-                 zombie_match_getter=None,
-                 zombie_replace_getter=None):
+    def __init__(self, user: str, password: str, host: str, port: int, period: int, debug, get_trackers,
+                    override_private:bool, zombie_trackers:list[str]):
 
         print("TorrentUpdater Initializing...")
         # defaults
@@ -47,65 +38,33 @@ class TorrentUpdater:
         self.period = period
         self.debug = debug
         self.get_trackers = get_trackers
-        # private tracker override settings
         self.override_private = override_private
-        self.zombie_match_getter = zombie_match_getter
-        self.zombie_replace_getter = zombie_replace_getter
+        self.zombie_trackers = zombie_trackers
 
-    def update_trackers_for_torrent(self, torrent: Torrent):
+        print(f"TorrentUpdater Initialized. Zombie Trackers: {self.zombie_trackers} override_private: {self.override_private}")
+
+
+    def update_trackers_for_torrent(self, torrent: Torrent, client: Client):
 
         try:
-            tc = Client(username=self.user, password=self.password, host=self.host, port=self.port)
-            current_trackers = tc.get_torrent(torrent_id=torrent.hashString).tracker_list
+            current_trackers = client.get_torrent(torrent_id=torrent.hashString).tracker_list
             new_trackers = self.get_trackers()
-            # Decide whether we should replace private torrent trackers
-            if torrent.is_private and self.override_private:
-                # If any current tracker matches the zombie match list, replace only those trackers
-                match_list = []
-                replace_list = []
-                try:
-                    if self.zombie_match_getter:
-                        match_list = self.zombie_match_getter() or []
-                except Exception as e:
-                    print(f"Error retrieving zombie match list: {e}")
-                try:
-                    if self.zombie_replace_getter:
-                        replace_list = self.zombie_replace_getter() or []
-                except Exception as e:
-                    print(f"Error retrieving zombie replace list: {e}")
-
-                if match_list and any(t in match_list for t in current_trackers):
-                    if not replace_list:
-                        print(f"No replace list provided for private torrent '{torrent.name}', skipping replacement")
-                    else:
-                        # Remove matched trackers and add replace list, preserving other trackers
-                        all_trackers = [t for t in current_trackers if t not in match_list]
-                        all_trackers.extend(replace_list)
-                        all_trackers = list(set(all_trackers))  # Remove duplicates
-                        if sorted(current_trackers) != sorted(all_trackers):
-                            print(f"Replacing zombie trackers for private torrent \"{torrent.name}\"")
-                            print(f" - {len(current_trackers)} current trackers")
-                            print(f" - {len(all_trackers)} trackers after replacement")
-                            tc.change_torrent(ids=torrent.hashString, tracker_list=[[t] for t in all_trackers])
-                            print(f' - Zombie trackers replaced for "{torrent.name}"')
-                    return
-
-            # Default behavior: make a union of current and new trackers
+            print(f'I was about to update trackers for "{torrent.name}"')
+            # Make a union of current and new trackers
             all_trackers = list(set(new_trackers) | set(current_trackers))
             if sorted(current_trackers) != sorted(all_trackers):
                 print(f'Updating trackers for "{torrent.name}"')
                 print(f" - {len(current_trackers)} current trackers")
                 print(f" - {len(all_trackers)} trackers after update")
-                tc.change_torrent(ids=torrent.hashString, tracker_list=[[t] for t in all_trackers])
+                client.change_torrent(ids=torrent.hashString, tracker_list=[[t] for t in all_trackers])
                 print(f' - Trackers updated for "{torrent.name}"')
         except Exception as e:
             print(f"An error occurred updating trackers: {e}")
             self.debug(torrent_info(torrent))
 
-    def get_torrents(self):
+    def get_torrents(self, client: Client):
         try:
-            tc = Client(username=self.user, password=self.password, host=self.host, port=self.port)
-            torrents = tc.get_torrents()
+            torrents = client.get_torrents()
             return torrents
         except Exception as e:
             print(f"An error occurred: {e}")
@@ -116,21 +75,44 @@ class TorrentUpdater:
         self.check_and_update_torrents()
 
     def is_torrent_qualified_for_update(self, torrent: Torrent):
-        # Do not update unstarted torrents. Private torrents are skipped unless override_private is True
-        if torrent.is_private and not self.override_private:
-            self.debug(f"  - skipping private torrent (override disabled): {torrent.id}")
-            return False
+
+        # Do not update unstarted torrents.
         if torrent.activity_date < torrent.added_date:
-            self.debug(f"  - skipping torrent (not started/eligible): {torrent.id}")
+            self.debug(f"  - skipping torrent (not started): {torrent.id}")
             return False
+
+        # Private torrents are skipped unless override_private is True
+        if torrent.is_private:
+
+            if not self.override_private:
+                self.debug(f"  - skipping private torrent : {torrent.id}")
+                return False
+
+            if not self.zombie_trackers:
+                self.debug(f"  - skipping private torrent (override enabled, but no zombie list: {torrent.id}")
+                return False
+
+            for tracker in torrent.tracker_list:
+                tracker = tracker.lower()
+                for zombie in self.zombie_trackers:
+                    if zombie in tracker:
+                        self.debug(f"  - private torrent qualified as zombie: {torrent.id}")
+                        return True
+
+            return False
+
+        #Public, started torrent.
         return True
+
+
 
     def check_and_update_torrents(self):
         print(f"Watching for new active torrents every {self.period} seconds...")
         torrent_names: list[str] = []
         while True:
+            client = Client(username=self.user, password=self.password, host=self.host, port=self.port)
             # get the active torrents
-            torrents: list[Torrent] = self.get_torrents()
+            torrents: list[Torrent] = self.get_torrents(client=client)
             # check for eligible torrents
             eligible_torrents = [torrent for torrent in torrents if self.is_torrent_qualified_for_update(torrent)]
             # put eligible torrent names in a list
@@ -139,9 +121,9 @@ class TorrentUpdater:
             if new_eligible_torrent_names != torrent_names:
                 log_torrent_changes(torrent_names, new_eligible_torrent_names, len(eligible_torrents))
                 torrent_names = new_eligible_torrent_names
-            self.update_torrents(eligible_torrents)
+            self.update_torrents(eligible_torrents, client=client)
             time.sleep(self.period)
 
-    def update_torrents(self, torrents: list[Torrent]):
+    def update_torrents(self, torrents: list[Torrent], client: Client):
         for torrent in torrents:
-            self.update_trackers_for_torrent(torrent)
+            self.update_trackers_for_torrent(torrent, client=client)
