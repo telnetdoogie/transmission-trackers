@@ -8,3 +8,6 @@ dependencies = [
 
 [project.scripts]
 transmission-trackers = "app:main"
+
+[tool.setuptools]
+py-modules = ["app", "trackers_updater", "torrents_updater"]
