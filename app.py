@@ -83,8 +83,6 @@ class App:
             print(f"[{ts}] DEBUG: {message}")
 
 
-if __name__ == "__main__":
-    main()
 
 def main():
     app = App()
@@ -92,3 +90,6 @@ def main():
         app.main()
     except KeyboardInterrupt:
         print("Exiting...")
+
+if __name__ == "__main__":
+    main()
