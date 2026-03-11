@@ -21,8 +21,7 @@ Report issues in [Issues](https://github.com/telnetdoogie/transmission-trackers/
 ---
 
 ## Running from command line as a python app:
-
-### in Windows (cmd) 
+### Windows (cmd) 
 ```cmd
 git clone https://github.com/telnetdoogie/transmission-trackers
 cd transmission-trackers
