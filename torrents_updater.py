@@ -91,7 +91,8 @@ class TorrentUpdater:
                 log_torrent_changes(torrent_names, new_eligible_torrent_names, len(eligible_torrents))
                 torrent_names = new_eligible_torrent_names
             self.update_torrents(eligible_torrents, client=client)
-            time.sleep(self.period)
+            for _ in range(self.period):
+                time.sleep(1)
 
     def update_torrents(self, torrents: list[Torrent], client: Client):
         for torrent in torrents:
