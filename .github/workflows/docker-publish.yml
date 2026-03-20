@@ -40,13 +40,13 @@ jobs:
 
       # Workaround: https://github.com/docker/build-push-action/issues/461
       - name: Setup Docker buildx
-        uses: docker/setup-buildx-action@8016837eba79c3b51bf2025379f48b6fc50f1236
+        uses: docker/setup-buildx-action@d91f340399fb2345e3e45f5461e116862b08261d
 
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
         if: github.event_name != 'pull_request'
-        uses: docker/login-action@c144859092e8e353f3e118b0b329679a62351c3e
+        uses: docker/login-action@da5b89b92c1be57a07eeed1334a0728b94145654
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -56,7 +56,7 @@ jobs:
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
         id: meta
-        uses: docker/metadata-action@d24d429af23073facc066506898a0eae1f24b9ad
+        uses: docker/metadata-action@11079342065fb7d2c3b37cb799ab6ecc01ad1bb2
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           # generate Docker tags based on the following events/attributes
@@ -69,7 +69,7 @@ jobs:
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
         id: build-and-push
-        uses: docker/build-push-action@eb6512707bea5740b2608f2a43ece7bc543cb75b
+        uses: docker/build-push-action@de308676347136a77704e0f257298c8f1b30054f
         with:
           context: .
           platforms: linux/amd64,linux/arm64,linux/arm/v7
