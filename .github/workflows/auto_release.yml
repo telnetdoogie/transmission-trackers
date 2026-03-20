@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6 # Checkout our working repository
       - name: Conventional Changelog Action
         id: changelog
-        uses: TriPSs/conventional-changelog-action@84dadaf2c367cb52af02737cd9c7e888807219e7 # v6
+        uses: TriPSs/conventional-changelog-action@91be4f3188da74fe85de9caffcebc80b26d43b5b # v6
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           output-file: 'CHANGELOG.md'
