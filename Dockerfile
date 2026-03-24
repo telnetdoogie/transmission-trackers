@@ -1,17 +1,11 @@
-FROM python:3.14.1-alpine3.21 AS builder
-
-# mitigate vulnerabilities
-RUN apk update && apk upgrade --no-cache
+FROM dhi.io/python:3-alpine3.23-dev AS builder
 
 WORKDIR /app
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
-FROM python:3.14.1-alpine3.21
-
-# mitigate vulnerabilities
-RUN apk update && apk upgrade --no-cache
+FROM dhi.io/python:3-alpine3.23
 
 COPY --from=builder /install /usr/local
 
