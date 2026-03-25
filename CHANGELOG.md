@@ -1,4 +1,4 @@
-# [1.10.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.3...v1.10.0) (2026-03-24)
+# [1.11.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.3...v1.11.0) (2026-03-25)
 
 
 ### Features
