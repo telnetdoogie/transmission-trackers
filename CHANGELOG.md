@@ -7,15 +7,6 @@
 
 
 
-# [1.10.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.3...v1.10.0) (2026-03-25)
-
-
-### Features
-
-* move to DHI images ([b7752cd](https://github.com/telnetdoogie/transmission-trackers/commit/b7752cd3f8554df08d957a09932fb8f85080fb28))
-
-
-
 ## [1.9.3](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.2...v1.9.3) (2026-03-11)
 
 
