@@ -1,3 +1,12 @@
+## [1.9.6](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.5...v1.9.6) (2026-03-30)
+
+
+### Bug Fixes
+
+* **deps:** update ci dependencies to v2.33.1 ([#168](https://github.com/telnetdoogie/transmission-trackers/issues/168)) ([5a0e011](https://github.com/telnetdoogie/transmission-trackers/commit/5a0e011f7ddae2190f0ffcb3b91b381814201dbe))
+
+
+
 ## [1.9.5](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.4...v1.9.5) (2026-03-26)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * better interrupt timing for exits, app packaged for command-line ([c906750](https://github.com/telnetdoogie/transmission-trackers/commit/c906750bf2c6219f98a5e7fa17233f97bcb0bf04))
-
-
-
-## [1.9.2](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.1...v1.9.2) (2026-03-11)
-
-
-### Bug Fixes
-
-* add toml for easier cmd-line install ([2d3b49c](https://github.com/telnetdoogie/transmission-trackers/commit/2d3b49cd935d098a65bfcbff4bf7f00f3bf2d509))
 
 
 
