@@ -2,7 +2,7 @@
 name = "transmission-trackers"
 version = "0.0.0"
 dependencies = [
-    "requests==2.33.0",
+    "requests==2.33.1",
     "transmission-rpc==7.0.11"
 ]
 
