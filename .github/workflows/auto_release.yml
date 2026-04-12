@@ -27,7 +27,7 @@ jobs:
           echo "Clean Changelog: ${{ steps.changelog.outputs.clean_changelog }}"
           echo "Outputs Skipped: ${{ steps.changelog.outputs.skipped }}"
       - name: Auto-Create Release
-        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2 # auto create a tag and release
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3 # auto create a tag and release
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
         with:
           token: ${{ secrets.GH_TOKEN }}
