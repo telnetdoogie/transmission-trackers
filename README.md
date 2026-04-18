@@ -85,7 +85,9 @@ You can set these as needed to override the defaults. If the defaults are accept
 |------------------------|---------------------------------------------------------------------------------------|-------------------------------------|
 | `TRANSMISSION_HOST`    | IP or hostname of transmission host                                                   | `transmission`                      |
 | `TRANSMISSION_PORT`    | Port of transmission host                                                             | `9091`                              |
-| `TRACKERS_LIST`        | URL for tracker list                                                                  | `https://newtrackon.com/api/stable` |
+| `TRACKERS_LIST`        | URL for tracker list (single, for backward compatibility)                             | `https://newtrackon.com/api/stable` |
+| `TRACKER_LISTS`        | Multiple URLs separated by `\|` (pipe). Each URL becomes a separate tier.             | -                                   |
+| `TRACKER_PRIORITY`     | Comma-separated list of indices (0,1,2...) specifying which list has highest priority. | Natural order                       |
 | `TRANSMISSION_USER`    | Username for transmission. Ignore if no auth needed.                                  | `transmission`                      |
 | `TRANSMISSION_PASS`    | Password for transmission. Ignore if no auth needed.                                  | `password`                          |
 | `TORRENT_CHECK_PERIOD` | How frequent (in seconds) we'll check for active torrents                             | `120` (2 minutes)                   |
@@ -96,8 +98,36 @@ You can set these as needed to override the defaults. If the defaults are accept
 
 ## Which List Should I Use?
 
-You can use any URL that returns a line-separated list of trackers, so find your favorite list and use that one. I have not added support to combine lists, nor currently will this remove trackers that fall off the lists as they're updated, but if there's demand for that, it could be added. 
+You can use any URL that returns a line-separated list of trackers, so find your favorite list and use that one. This app will not remove trackers that fall off the lists as they're updated.
 
 In the case of the newtrackon list, you can use the API as you see fit:
 - `https://newtrackon.com/api/stable` - stable list
 - `https://newtrackon.com/api/98?min_age_days=5` - list with 98%+ uptime, and 5+ tracker age in days
+
+---
+
+## Multiple Tracker Lists with Tiers
+
+You can specify multiple tracker lists using `TRACKER_LISTS` (separated by `|`). Each list becomes a separate tier, following the [BEP-0012](https://www.bittorrent.org/beps/bep_0012.html) specification. Tier 0 has the highest priority.
+
+### Example: Using two lists with custom priority
+
+Suppose you want to use:
+- `https://example.com/best20.txt` - higher quality trackers
+- `https://example.com/best90.txt` - larger list of trackers
+
+If you want `best90` to be the top priority (Tier 0) and `best20` as Tier 1:
+
+```yaml
+environment:
+  TRACKER_LISTS: https://example.com/best20.txt|https://example.com/best90.txt
+  TRACKER_PRIORITY: 1,0
+```
+
+This will result in:
+- Tier 0: Trackers from `best90.txt`
+- Tier 1: Trackers from `best20.txt`
+
+### Backward Compatibility
+
+For single-list usage, you can continue using `TRACKERS_LIST` as before. It will be automatically converted to a single-element list internally.
