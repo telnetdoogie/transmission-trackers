@@ -1,3 +1,12 @@
+## [1.9.7](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.6...v1.9.7) (2026-05-13)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies to v2.34.1 ([41d05a2](https://github.com/telnetdoogie/transmission-trackers/commit/41d05a228955cc279e385d807f462ca325bfe95f))
+
+
+
 ## [1.9.6](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.5...v1.9.6) (2026-03-30)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * move to DHI images ([b7752cd](https://github.com/telnetdoogie/transmission-trackers/commit/b7752cd3f8554df08d957a09932fb8f85080fb28))
-
-
-
-## [1.9.3](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.2...v1.9.3) (2026-03-11)
-
-
-### Bug Fixes
-
-* better interrupt timing for exits, app packaged for command-line ([c906750](https://github.com/telnetdoogie/transmission-trackers/commit/c906750bf2c6219f98a5e7fa17233f97bcb0bf04))
 
 
 
