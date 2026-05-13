@@ -1,2 +1,2 @@
-Requests==2.33.1
+Requests==2.34.1
 transmission_rpc==7.0.11
