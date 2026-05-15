@@ -1,3 +1,12 @@
+## [1.9.8](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.7...v1.9.8) (2026-05-15)
+
+
+### Bug Fixes
+
+* **deps:** update ci dependencies to v2.34.2 ([#178](https://github.com/telnetdoogie/transmission-trackers/issues/178)) ([aed8b0d](https://github.com/telnetdoogie/transmission-trackers/commit/aed8b0dd86a599cdd6119453bf9565ca5e084210))
+
+
+
 ## [1.9.7](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.6...v1.9.7) (2026-05-13)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * rollback broken release ([6dc578b](https://github.com/telnetdoogie/transmission-trackers/commit/6dc578b3ba0be36e4612e7ecaca45fafc6e3e2f3))
-
-
-
-# [1.10.0](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.3...v1.10.0) (2026-03-25)
-
-
-### Features
-
-* move to DHI images ([b7752cd](https://github.com/telnetdoogie/transmission-trackers/commit/b7752cd3f8554df08d957a09932fb8f85080fb28))
 
 
 
