@@ -14,20 +14,39 @@ class App:
         self.password = "password"
         self.host = "transmission"
         self.port: int = 9091
-        self.trackers_list = "https://newtrackon.com/api/stable"
-        # self.trackers_list = "https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best.txt"
+        self.trackers_lists: list[str] = ["https://newtrackon.com/api/stable"]
+        self.tracker_priority: list[int] = None  # None means natural order
         self.period: int = 120
         self.tracker_expiration_time: int = 28800  # 8 hours
         self.is_debug = False
 
         self.override_params_from_env()
 
-        self.tracker_updater: TrackerUpdater = TrackerUpdater(url=self.trackers_list,
+        # Build tracker URLs based on priority
+        urls = self.__build_ordered_urls()
+
+        self.tracker_updater: TrackerUpdater = TrackerUpdater(urls=urls,
                                                               expiration_time=self.tracker_expiration_time,
                                                               debug=self.debug)
         self.torrent_updater: TorrentUpdater = TorrentUpdater(user=self.user, password=self.password, host=self.host,
                                                               port=self.port, period=self.period, debug=self.debug,
                                                               get_trackers=self.tracker_updater.get_trackers)
+
+    def __build_ordered_urls(self) -> list[str]:
+        """Build ordered list of tracker URLs based on priority setting."""
+        if self.tracker_priority is None:
+            return self.trackers_lists
+
+        # Reorder URLs based on priority
+        ordered = []
+        for p in self.tracker_priority:
+            if 0 <= p < len(self.trackers_lists):
+                ordered.append(self.trackers_lists[p])
+        # Append any remaining URLs not in priority list
+        for i, url in enumerate(self.trackers_lists):
+            if i not in self.tracker_priority and url not in ordered:
+                ordered.append(url)
+        return ordered
 
     def main(self):
 
@@ -53,6 +72,8 @@ class App:
             "TRANSMISSION_HOST": ("host", str),
             "TRANSMISSION_PORT": ("port", int),
             "TRACKERS_LIST": ("trackers_list", str),
+            "TRACKER_LISTS": ("tracker_lists", list[str]),
+            "TRACKER_PRIORITY": ("tracker_priority", list[int]),
             "TRANSMISSION_USER": ("user", str),
             "TRANSMISSION_PASS": ("password", str),
             "TORRENT_CHECK_PERIOD": ("period", int),
@@ -70,6 +91,10 @@ class App:
                     # Convert values to the correct type
                     if attr_type is bool:
                         converted_value = value.lower() in ("true", "yes", "1")
+                    elif attr_type is list[str]:
+                        converted_value = [v.strip() for v in value.split("|") if v.strip()]
+                    elif attr_type is list[int]:
+                        converted_value = [int(v.strip()) for v in value.split(",") if v.strip()]
                     else:
                         converted_value = attr_type(value)
                     setattr(self, attr, converted_value)
@@ -77,6 +102,11 @@ class App:
                 except ValueError:
                     print(f"{env_var} passed was not a valid {attr_type.__name__}")
                     exit(1)
+
+        # Handle backward compatibility: TRACKERS_LIST -> tracker_lists
+        if not hasattr(self, 'tracker_lists') or not self.tracker_lists:
+            if hasattr(self, 'trackers_list') and self.trackers_list:
+                self.tracker_lists = [self.trackers_list]
 
     def debug(self, message: str):
         if self.is_debug:

@@ -43,14 +43,42 @@ class TorrentUpdater:
 
         try:
             current_trackers = client.get_torrent(torrent_id=torrent.hashString).tracker_list
-            new_trackers = self.get_trackers()
-            # Make a union of current and new trackers
-            all_trackers = list(set(new_trackers) | set(current_trackers))
-            if sorted(current_trackers) != sorted(all_trackers):
+            original_current_trackers = list(current_trackers)  # Keep original for comparison
+            new_trackers_tiers = self.get_trackers()
+
+            if not new_trackers_tiers:
+                return
+
+            # Flatten new tiers to get all available trackers
+            all_new_trackers = [t for tier in new_trackers_tiers for t in tier]
+
+            # Build updated tiers preserving tier structure
+            updated_tiers = []
+            for tier in new_trackers_tiers:
+                tier_trackers = list(tier)  # Start with trackers from this tier
+                # Add any current trackers not in the new lists to this tier
+                for ct in current_trackers:
+                    if ct not in all_new_trackers and ct not in tier_trackers:
+                        tier_trackers.append(ct)
+                if tier_trackers:
+                    updated_tiers.append(tier_trackers)
+
+            # Add any remaining current trackers to the last tier or as a new tier
+            if current_trackers:
+                remaining = [ct for ct in current_trackers if ct not in all_new_trackers]
+                if remaining:
+                    if updated_tiers:
+                        updated_tiers[-1].extend(remaining)
+                    else:
+                        updated_tiers.append(remaining)
+
+            # Check if changes are needed
+            final_trackers_flat = [t for tier in updated_tiers for t in tier]
+            if sorted(original_current_trackers) != sorted(final_trackers_flat):
                 print(f'Updating trackers for "{torrent.name}"')
-                print(f" - {len(current_trackers)} current trackers")
-                print(f" - {len(all_trackers)} trackers after update")
-                client.change_torrent(ids=torrent.hashString, tracker_list=[[t] for t in all_trackers])
+                print(f" - {len(original_current_trackers)} current trackers")
+                print(f" - {len(updated_tiers)} tiers after update")
+                client.change_torrent(ids=torrent.hashString, tracker_list=updated_tiers)
                 print(f' - Trackers updated for "{torrent.name}"')
         except Exception as e:
             print(f"An error occurred updating trackers: {e}")
