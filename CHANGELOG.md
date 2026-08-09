@@ -1,3 +1,12 @@
+## [1.9.9](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.8...v1.9.9) (2026-08-09)
+
+
+### Bug Fixes
+
+* **deps:** update ci dependencies to v7.0.12 ([e58afdb](https://github.com/telnetdoogie/transmission-trackers/commit/e58afdb65f7241b983afcf951a5e9665386674d4))
+
+
+
 ## [1.9.8](https://github.com/telnetdoogie/transmission-trackers/compare/v1.9.7...v1.9.8) (2026-05-15)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **deps:** update dependency requests to v2.33.0 [security] ([7e38712](https://github.com/telnetdoogie/transmission-trackers/commit/7e387127b774d0ac89a5c5f8e2fe3b138bcfcd79))
-
-
-
-## [1.9.4](https://github.com/telnetdoogie/transmission-trackers/compare/v1.10.0...v1.9.4) (2026-03-25)
-
-
-### Bug Fixes
-
-* rollback broken release ([6dc578b](https://github.com/telnetdoogie/transmission-trackers/commit/6dc578b3ba0be36e4612e7ecaca45fafc6e3e2f3))
 
 
 
