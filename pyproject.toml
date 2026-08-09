@@ -3,7 +3,7 @@ name = "transmission-trackers"
 version = "0.0.0"
 dependencies = [
     "requests==2.34.2",
-    "transmission-rpc==7.0.11"
+    "transmission-rpc==7.0.12"
 ]
 
 [project.scripts]
